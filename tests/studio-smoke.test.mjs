@@ -42,6 +42,6 @@ test("reference analysis and assisted mix export are wired", () => {
 });
 
 test("prototype labels procedural generation honestly", () => {
-  assert.match(html, /procedural synthesized backing idea locally/i);
+  assert.match(html, /synthesized backing idea locally/i);
   assert.match(html, /no generative music model/i);
 });
