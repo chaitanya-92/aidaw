@@ -33,6 +33,6 @@ test("vocal effects and project JSON restore controls exist", () => {
 });
 
 test("prototype labels procedural generation honestly", () => {
-  assert.match(html, /not an AI-generated recording/i);
+  assert.match(html, /not a generative music model/i);
   assert.match(html, /not a generative music model/i);
 });
