@@ -1,19 +1,20 @@
 # AIDA Studio
 
-A browser-first AI-native music studio focused on preserving real vocal performances while helping musicians create, arrange, and mix backing tracks.
+A browser-first AI-native music studio prototype focused on preserving source performances while helping musicians create and mix backing tracks.
 
-## Product direction
+## Current prototype features
 
-- Original AIDA branding and a dark, Suno Studio-inspired workflow.
-- Local vocal import and waveform preview.
-- Browser audio playback with basic EQ, compression, optional reverb and delay audition sends.
-- Procedurally synthesized drum/bass backing ideas.
-- Track-level and master gain controls.
-- WAV preview export and project-settings JSON export/import.
+- Import local audio and display a waveform preview.
+- Browser playback with basic high-pass EQ, compression, reverb and delay audition paths.
+- Procedurally synthesized drum/bass backing ideas (not AI-generated music).
+- Reference beat upload and a rough local audio profile report (duration, channel count, RMS/peak level, and rough low/mid/high energy estimates).
+- DSP-based assisted WAV render with selectable balanced, vocal-forward, or warm processing.
+- Track/master gain controls and WAV preview export.
+- Project settings JSON export/import. Uploaded audio itself is not embedded.
 
 ## Run locally
 
-Requires Node.js 20+ for the smoke tests, but the studio itself is a static page.
+The studio is a static page; no runtime dependency install is needed.
 
 ```bash
 git clone -b feat/suno-inspired-studio-shell https://github.com/chaitanya-92/aidaw.git
@@ -23,25 +24,27 @@ python3 -m http.server 8000
 
 Open http://localhost:8000 in Chrome or Edge.
 
-Run source smoke tests:
+Run smoke tests with Node.js 20+:
 
 ```bash
 npm test
 ```
 
-## Current limitations — not yet a finished DAW
+## Important limitations
 
-- The beat generator is procedural synthesis, not generative AI; it is only a rough musical sketch.
-- The timeline is currently a visual arrangement scaffold, not a complete clip editor. Dragging, trimming, splitting, snapping, automation, and a piano roll are not implemented.
-- Effects are basic browser audition effects; pitch correction, full parametric EQ, sidechain, bus routing, mastering, and plugin hosting are not implemented.
-- WAV export renders a basic vocal + beat approximation; not every live effect is rendered identically and multitrack/stem export is not implemented.
-- Project JSON stores settings, not the audio file. Re-import the vocal after loading a project.
-- No AI inference backend, user accounts, cloud storage, collaboration, autosave, or production deployment exists yet.
+This is not yet a finished DAW or a professional AI mixing service.
+
+- Reference beat analysis does not generate a similar beat. A true reference-conditioned generator requires a suitable model/inference backend and evaluation.
+- The assisted mix is a conservative DSP chain, not a trained AI mixing engineer. It processes the currently uploaded audio file as one source; it cannot independently rebalance vocal and instrumental stems from a single stereo master.
+- No pitch correction/autotune, full parametric EQ, clip editing, automation, MIDI piano roll, multitrack stem export, cloud sessions, accounts, or collaboration.
+- Project JSON stores settings only; audio must be re-imported.
+- WAV preview export does not yet reproduce every live effect identically.
+- No remote AI inference service is connected. Audio stays in the browser in this prototype.
 
 ## Verification
 
-The smoke test checks for key controls, JavaScript syntax, core audio functions, project import/export hooks, and honest labeling of procedural generation. It does not replace testing in a real browser with real audio files.
+GitHub Actions runs zero-dependency Node smoke tests for key controls, inline JavaScript syntax, audio workflow hooks, reference analysis, and assisted mix rendering. These are source-level checks, not subjective audio-quality tests or full browser integration tests.
 
 ## Commercial-use note
 
-Review licenses for every dependency, model checkpoint, generated sample, and service before commercial distribution. This prototype currently has no third-party runtime dependencies.
+Review the licenses and terms for every dependency, model checkpoint, generated sample, and inference service before commercial distribution.
