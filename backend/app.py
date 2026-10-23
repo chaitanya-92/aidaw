@@ -1,10 +1,13 @@
 import json, os
+from pathlib import Path
+from dotenv import load_dotenv
 from urllib.parse import quote
 import httpx
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import Response
 
+load_dotenv(Path(__file__).with_name('.env'))
 BASE = os.getenv('ACE_STEP_URL', 'http://127.0.0.1:8001').rstrip('/')
 TOKEN = os.getenv('ACE_STEP_API_KEY', '')
 app = FastAPI(title='AIDA Studio AI Bridge', version='0.1.0')
