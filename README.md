@@ -4,50 +4,44 @@ A browser-first AI-native music studio focused on preserving real vocal performa
 
 ## Product direction
 
-- Suno Studio-inspired workflow patterns: a dark creative workspace, multitrack arrangement, transport controls, a creation panel, and mixer.
-- Original AIDA branding and original UI implementation; no Suno logos, names, or proprietary assets are reused.
-- Keep uploaded audio local in the browser prototype.
-- Build toward non-destructive vocal processing, editable arrangement, reference-guided mixing, and model-assisted accompaniment generation.
-
-## Current prototype
-
-The feature branch `feat/suno-inspired-studio-shell` contains a self-contained browser prototype in `index.html`.
-
-Implemented interactions:
-- Import and decode an audio file locally; display a waveform preview.
-- Play/stop imported audio with optional simple high-pass EQ and dynamics compression.
-- Generate a basic procedural drum/bass backing groove locally (this is not an AI music model).
-- Adjust track/master levels.
-- Save session settings to a JSON file.
-- Render and download a WAV preview.
-
-Known prototype limitations:
-- Beat generation is procedural synthesis; it is not yet generative AI and won't sound like a finished commercial instrumental.
-- Reverb and delay switches are surfaced in the UI but are not wired into the signal chain yet.
-- The export renders the vocal and basic generated accompaniment but doesn't yet mirror every live effect or provide true multitrack/stem export.
-- Project JSON does not embed audio files.
-- No user accounts, cloud project storage, or backend inference service exists yet.
+- Original AIDA branding and a dark, Suno Studio-inspired workflow.
+- Local vocal import and waveform preview.
+- Browser audio playback with basic EQ, compression, optional reverb and delay audition sends.
+- Procedurally synthesized drum/bass backing ideas.
+- Track-level and master gain controls.
+- WAV preview export and project-settings JSON export/import.
 
 ## Run locally
 
-Because this prototype is a static page, you can open `index.html` directly in a modern browser. If the browser restricts local file playback, serve the repository with any static HTTP server, for example:
+Requires Node.js 20+ for the smoke tests, but the studio itself is a static page.
 
 ```bash
+git clone -b feat/suno-inspired-studio-shell https://github.com/chaitanya-92/aidaw.git
+cd aidaw
 python3 -m http.server 8000
 ```
 
-Then open http://localhost:8000.
+Open http://localhost:8000 in Chrome or Edge.
 
-## Verification checklist
+Run source smoke tests:
 
-1. Open the page in a recent Chrome or Edge browser.
-2. Import a WAV/MP3 vocal recording and confirm a waveform appears.
-3. Play and stop the recording.
-4. Enable/disable EQ and compression; confirm future playback reflects the selected settings.
-5. Generate the procedural beat and play it alongside the vocal.
-6. Change BPM/key, adjust mixer levels, export WAV, and save session JSON.
-7. Confirm no audio is uploaded to any remote service by this prototype.
+```bash
+npm test
+```
+
+## Current limitations — not yet a finished DAW
+
+- The beat generator is procedural synthesis, not generative AI; it is only a rough musical sketch.
+- The timeline is currently a visual arrangement scaffold, not a complete clip editor. Dragging, trimming, splitting, snapping, automation, and a piano roll are not implemented.
+- Effects are basic browser audition effects; pitch correction, full parametric EQ, sidechain, bus routing, mastering, and plugin hosting are not implemented.
+- WAV export renders a basic vocal + beat approximation; not every live effect is rendered identically and multitrack/stem export is not implemented.
+- Project JSON stores settings, not the audio file. Re-import the vocal after loading a project.
+- No AI inference backend, user accounts, cloud storage, collaboration, autosave, or production deployment exists yet.
+
+## Verification
+
+The smoke test checks for key controls, JavaScript syntax, core audio functions, project import/export hooks, and honest labeling of procedural generation. It does not replace testing in a real browser with real audio files.
 
 ## Commercial-use note
 
-Review license terms for every dependency, model checkpoint, generated sample, and service before distributing a commercial product. This repository currently has no third-party runtime dependencies.
+Review licenses for every dependency, model checkpoint, generated sample, and service before commercial distribution. This prototype currently has no third-party runtime dependencies.
