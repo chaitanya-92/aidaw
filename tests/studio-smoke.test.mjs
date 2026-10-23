@@ -9,7 +9,7 @@ const script = scriptStart >= 0 && scriptEnd >= 0 ? html.slice(scriptStart + 8, 
 
 test("studio page has a document shell and main controls", () => {
   assert.match(html, /<!doctype html>/i);
-  for (const id of ["file", "play", "stop", "generate", "exportBtn", "loadProject"]) {
+  for (const id of ["file", "play", "stop", "generate", "exportBtn", "loadProject", "referenceFile", "analyzeReference", "autoMix", "mixTarget"]) {
     assert.ok(html.includes('id="' + id + '"'), "missing control: " + id);
   }
 });
@@ -30,6 +30,15 @@ test("vocal effects and project JSON restore controls exist", () => {
   assert.ok(script.includes("source.connect(conv)"), "reverb send should be connected");
   assert.ok(script.includes("source.connect(d)"), "delay send should be connected");
   assert.ok(script.includes("p.schemaVersion!==1"), "project version should be validated");
+});
+
+test("reference analysis and assisted mix export are wired", () => {
+  assert.ok(script.includes("function analyzeAudio(b)"), "reference analyzer should exist");
+  assert.ok(script.includes("function renderAnalysis(a)"), "analysis report should exist");
+  assert.ok(script.includes("async function createAssistedMix()"), "offline mix renderer should exist");
+  assert.ok(script.includes("new OfflineAudioContext"), "mix should render offline");
+  assert.ok(script.includes("aida-assisted-mix-"), "mix should download a new WAV");
+  assert.ok(script.includes("referenceBuffer"), "reference audio should be stored separately from vocal audio");
 });
 
 test("prototype labels procedural generation honestly", () => {
