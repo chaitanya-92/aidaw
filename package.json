@@ -1,0 +1,12 @@
+{
+  "name": "aida-studio-prototype",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Browser-first AI-native music studio prototype",
+  "scripts": {
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
