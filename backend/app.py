@@ -68,7 +68,7 @@ async def audio(path:str):
     if not path or len(path)>2048 or '..' in path or not path.startswith('/'): raise HTTPException(400,'Invalid audio path.')
     try:
         async with httpx.AsyncClient(timeout=120) as c:
-            r=await c.get(BASE+'/v1/audio',params={'path':path},headers=headers()); r.raise_for_status()
+            r=await c.get(BASE+path,headers=headers()) if path.startswith('/v1/audio?') else await c.get(BASE+'/v1/audio',params={'path':path},headers=headers()); r.raise_for_status()
             ct=r.headers.get('content-type','audio/wav')
             if not ct.startswith('audio/') and 'octet-stream' not in ct: raise HTTPException(502,'Model server did not return audio.')
             return Response(r.content,media_type=ct,headers={'Content-Disposition':'attachment; filename=aida-reference-beat.wav','Cache-Control':'no-store'})
